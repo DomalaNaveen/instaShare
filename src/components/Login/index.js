@@ -1,10 +1,42 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import {Redirect} from 'react-router-dom'
+
 import './index.css'
 
-class Login extends Component {
+class LoginForm extends Component {
   state = {username: '', password: '', showErrorMsg: false, errorMsg: ''}
+
+  onSubmitSuccess = jwtToken => {
+    const {history} = this.props
+    Cookies.set('jwt_token', jwtToken, {expires: 30})
+    history.replace('/')
+  }
+
+  onSubmitFailure = msg => {
+    this.setState({showErrorMsg: true, errorMsg: msg})
+  }
+
+  onSubmitLoginDetails = async event => {
+    event.preventDefault()
+    const {username, password} = this.state
+    const apiUrl = 'https://apis.ccbp.in/login'
+    const userDetails = {
+      username,
+      password,
+    }
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(userDetails),
+    }
+    const response = await fetch(apiUrl, options)
+    const data = await response.json()
+    if (response.ok) {
+      this.onSubmitSuccess(data.jwt_token)
+    } else {
+      this.onSubmitFailure(data.error_msg)
+    }
+  }
 
   onChangeUsername = event => {
     this.setState({username: event.target.value})
@@ -14,66 +46,40 @@ class Login extends Component {
     this.setState({password: event.target.value})
   }
 
-  onSubmitFailure = msg => {
-    this.setState({errorMsg: msg, showErrorMsg: true})
-  }
-
-  onSubmitSuccess = jwtToken => {
-    const {history} = this.props
-
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
-    history.replace('/')
-  }
-
-  submitLoginForm = async event => {
-    event.preventDefault()
-    const {username, password} = this.state
-    const userDetails = {username, password}
-    const url = 'https://apis.ccbp.in/login'
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(userDetails),
-    }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    // console.log(data)
-    if (response.ok === true) {
-      this.onSubmitSuccess(data.jwt_token)
-    } else {
-      this.onSubmitFailure(data.error_msg)
-    }
-  }
-
-  renderUsername = () => {
+  renderUsernameInputContainer = () => {
     const {username} = this.state
+
     return (
-      <div className="input-container">
-        <label htmlFor="username" className="label">
+      <div className="input-container-login">
+        <label className="label" htmlFor="username">
           USERNAME
         </label>
         <input
+          className="input-box"
           type="text"
-          className="input"
+          id="username"
           value={username}
-          placeholder="USERNAME"
+          placeholder="Username"
           onChange={this.onChangeUsername}
         />
       </div>
     )
   }
 
-  renderPassword = () => {
+  renderPasswordInputContainer = () => {
     const {password} = this.state
+
     return (
-      <div className="input-container">
-        <label htmlFor="password" className="label">
+      <div className="input-container-login">
+        <label className="label" htmlFor="password">
           PASSWORD
         </label>
         <input
           type="password"
-          className="input"
+          className="input-box"
+          id="password"
+          placeholder="Password"
           value={password}
-          placeholder="PASSWORD"
           onChange={this.onChangePassword}
         />
       </div>
@@ -82,30 +88,32 @@ class Login extends Component {
 
   render() {
     const {showErrorMsg, errorMsg} = this.state
+
     const token = Cookies.get('jwt_token')
+
     if (token !== undefined) {
       return <Redirect to="/" />
     }
+
     return (
       <div className="login-container">
-        <div className="logo-container">
+        <img
+          src="https://res.cloudinary.com/dq7imhrvo/image/upload/v1643601870/insta%20Shere%20clone/Layer_2_kcc41y.png"
+          alt="website login"
+          className="login-image"
+        />
+        <div className="login-detail-container">
           <img
-            src="https://res.cloudinary.com/naveen-ccbp/image/upload/v1672771444/dn/login/Vector_4_izhghn.png"
-            alt="website login"
-            className="website-login"
-          />
-        </div>
-        <div className="login-card">
-          <img
-            src="https://res.cloudinary.com/naveen-ccbp/image/upload/v1672771588/dn/login/Standard_Collection_8_kd7c1v.png"
+            src="https://res.cloudinary.com/dq7imhrvo/image/upload/v1643601872/insta%20Shere%20clone/Standard_Collection_8_wutyeq.png"
             alt="website logo"
+            className="website-logo"
           />
-          <h1 className="website-heading">Insta Share</h1>
-          <form className="form" onSubmit={this.submitLoginForm}>
-            <>{this.renderUsername()}</>
-            <>{this.renderPassword()}</>
-            {showErrorMsg && <p className="error-msg">*{errorMsg}</p>}
-            <button className="button" type="submit">
+          <h1 className="website-head">Insta Share</h1>
+          <form className="form-container" onSubmit={this.onSubmitLoginDetails}>
+            <>{this.renderUsernameInputContainer()}</>
+            <>{this.renderPasswordInputContainer()}</>
+            {showErrorMsg && <p className="error">{errorMsg}</p>}
+            <button className="login-button" type="submit">
               Login
             </button>
           </form>
@@ -115,4 +123,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default LoginForm

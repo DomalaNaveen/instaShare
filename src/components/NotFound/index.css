@@ -1,0 +1,40 @@
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.not-found {
+  width: 269px;
+  height: 297px;
+}
+.heading {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 48px;
+  text-align: center;
+  color: #262626;
+}
+.para {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+  color: #989898;
+}
+.button {
+  background-color: #4094ef;
+  border-radius: 12px;
+  display: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 0px;
+  border-width: 0px;
+  padding: 11px 33px;
+  color: #ffffff;
+}

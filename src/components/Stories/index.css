@@ -4,43 +4,8 @@
   justify-content: center;
   align-items: center;
 }
-.slick-container {
-  width: 80%;
-  max-width: 1100px;
-  margin-top: 10px;
-}
-.logo-image {
-  margin: 0px, 10px;
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  border: 3px solid #ed587b;
-}
-
-@media screen and (min-width: 768px) {
-  .logo-image {
-    height: 80px;
-    width: 80px;
-    border-radius: 55px;
-    border: 0px solid #ed587b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.slick-prev::before,
-.slick-next::before {
-  color: black;
-}
-
-.name {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 11px;
-  line-height: 24px;
-  width: 20px;
-  margin-left: 10px;
-  flex-wrap: wrap;
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

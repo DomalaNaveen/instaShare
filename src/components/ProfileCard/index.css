@@ -1,0 +1,151 @@
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: #fafafa;
+}
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style-type: none;
+}
+.image-user-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.profile-pic {
+  width: 180px;
+  height: 180px;
+  left: 200px;
+  top: 97px;
+  border-radius: 90px;
+}
+.user-detail-container {
+  margin-left: 60px;
+}
+.heading {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 32px;
+  color: #262626;
+}
+.count {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.count-follower {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+.highlight {
+  font-weight: 500;
+  margin-right: 3px;
+}
+.bio-name {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 0px;
+  color: #262626;
+}
+.bio {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #262626;
+}
+.user-stories {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 30px;
+  padding-left: 0px;
+}
+.line {
+  border: 0.5px solid #c6c6c8;
+  margin-top: 30px;
+}
+.head-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+.post-head {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: #262626;
+  margin-left: 10px;
+}
+@media screen and (max-width: 480px) {
+  .profile-pic {
+    width: 96px;
+    height: 96px;
+  }
+  .user-detail-container {
+    margin-left: 30px;
+  }
+  .heading {
+    font-weight: 300;
+    font-size: 16px;
+  }
+  .count-follower {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #262626;
+  }
+  .highlight {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .my-profile-container {
+    padding: 0px;
+    margin: 0px;
+  }
+  .post-image {
+    margin: 1px;
+  }
+}
+
+.bio-container {
+  margin-top: 25px;
+  margin-left: 20px;
+}
+@media screen and (min-width: 768px) {
+  .bio-container {
+    margin-top: 15px;
+    margin-left: 4px;
+  }
+  .bio-container-1 {
+    display: none;
+  }
+}

@@ -1,8 +1,9 @@
 import {Link, withRouter} from 'react-router-dom'
-import Cookies from 'js-cookie'
+
 import {FaSearch} from 'react-icons/fa'
 import {GoThreeBars} from 'react-icons/go'
 import {AiFillCloseCircle} from 'react-icons/ai'
+import Cookies from 'js-cookie'
 import SearchContext from '../../Context/SearchContext'
 import './index.css'
 
@@ -26,7 +27,7 @@ const Header = props => (
         history.replace('/login')
       }
 
-      const CloseHeaderButton = () => {
+      const closeHeaderButton = () => {
         closeHeaderButtonIn()
       }
 
@@ -34,7 +35,7 @@ const Header = props => (
         onMoreOptionsState()
       }
 
-      const changeSearchInput = event => {
+      const ChangeSearchInput = event => {
         onChangeSearchInput(event.target.value)
       }
 
@@ -50,31 +51,32 @@ const Header = props => (
         <div className="input-container">
           <input
             className="search-input"
-            placeholder="Search Caption"
             type="search"
+            placeholder="Search Caption"
+            onChange={ChangeSearchInput}
             value={searchInput}
-            onChange={changeSearchInput}
           />
           <button
-            className="search-button"
+            className="button-s"
+            testid="searchIcon"
             type="button"
-            onChange={onsetSearchInput}
+            onClick={onsetSearchInput}
           >
             <FaSearch className="search-icon" />
           </button>
         </div>
       )
 
-      const onMoreOptionsBar = () => (
+      const onMoreOptionELe = () => (
         <div className="options-container">
-          <ul className="links">
+          <ul className="header-links">
             <li className="link-tag">
               <Link to="/" className="link">
                 Home
               </Link>
             </li>
             <button
-              className="search-button"
+              className="search-option"
               type="button"
               onClick={searchContainerView}
             >
@@ -86,21 +88,28 @@ const Header = props => (
               </Link>
             </li>
           </ul>
-          <button className="" type="button" onClick={CloseHeaderButton}>
+          <button className="logout-button" type="button" onClick={onLogout}>
+            Logout
+          </button>
+          <button
+            className="close-button"
+            type="button"
+            onClick={closeHeaderButton}
+          >
             <AiFillCloseCircle className="close-button" />
           </button>
         </div>
       )
 
       return (
-        <div>
+        <div className="shadow">
           <nav className="nav-header">
             <div className="img-container">
               <Link to="/">
                 <img
-                  src="https://res.cloudinary.com/naveen-ccbp/image/upload/v1672771588/dn/login/Standard_Collection_8_kd7c1v.png"
+                  src="https://res.cloudinary.com/dq7imhrvo/image/upload/v1643601872/insta%20Shere%20clone/Standard_Collection_8_wutyeq.png"
                   alt="website logo"
-                  className="website-logo"
+                  className="header-img"
                 />
               </Link>
               <h1 className="heading">Insta Share</h1>
@@ -109,20 +118,21 @@ const Header = props => (
               <div className="input-container">
                 <input
                   className="search-input"
-                  placeholder="Search Caption"
                   type="search"
+                  placeholder="Search Caption"
+                  onChange={ChangeSearchInput}
                   value={searchInput}
-                  onChange={changeSearchInput}
                 />
                 <button
-                  className="search-button"
+                  className="button-s"
+                  testid="searchIcon"
                   type="button"
-                  onChange={onsetSearchInput}
+                  onClick={onsetSearchInput}
                 >
                   <FaSearch className="search-icon" />
                 </button>
               </div>
-              <ul className="links">
+              <ul className="header-links">
                 <li className="link-tag">
                   <Link to="/" className="link">
                     Home
@@ -134,21 +144,25 @@ const Header = props => (
                   </Link>
                 </li>
               </ul>
-              <button type="button" className="button" onClick={onLogout}>
+              <button
+                className="logout-button"
+                type="button"
+                onClick={onLogout}
+              >
                 Logout
               </button>
             </div>
             <div className="medium-view">
               <button
+                className="med-button"
                 type="button"
-                className="medium-button"
                 onClick={onMoreOptions}
               >
-                <GoThreeBars className="more" />
+                <GoThreeBars className="more-img" />
               </button>
             </div>
           </nav>
-          {click && onMoreOptionsBar()}
+          {click && onMoreOptionELe()}
           {searchValue && searchBoxContainer()}
         </div>
       )

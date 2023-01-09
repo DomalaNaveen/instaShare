@@ -1,48 +1,10 @@
 import {Component} from 'react'
-import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import Slider from 'react-slick'
+import Cookies from 'js-cookie'
+import StoriesList from '../StoriesList'
 import './index.css'
 
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 5,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1100,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-}
-
-const apiStatusConstants = {
+const apiStoriesStatus = {
   initial: 'INITIAL',
   inProgress: 'IN_PROGRESS',
   success: 'SUCCESS',
@@ -50,14 +12,15 @@ const apiStatusConstants = {
 }
 
 class Stories extends Component {
-  state = {storiesList: [], storiesStatus: apiStatusConstants.initial}
+  state = {storiesList: [], apiStatusStories: apiStoriesStatus.initial}
 
   componentDidMount() {
-    this.getStories()
+    this.getStoriesDetails()
   }
 
-  getStories = async () => {
-    this.setState({storiesStatus: apiStatusConstants.inProgress})
+  getStoriesDetails = async () => {
+    this.setState({apiStatusStories: apiStoriesStatus.inProgress})
+
     const Token = Cookies.get('jwt_token')
     const apiUrl = 'https://apis.ccbp.in/insta-share/stories'
     const options = {
@@ -69,7 +32,6 @@ class Stories extends Component {
     const response = await fetch(apiUrl, options)
     if (response.ok) {
       const data = await response.json()
-      // console.log(data)
       const updatedData = {
         usersStories: data.users_stories.map(each => ({
           userId: each.user_id,
@@ -79,80 +41,63 @@ class Stories extends Component {
       }
       this.setState({
         storiesList: updatedData,
-        storiesStatus: apiStatusConstants.success,
+        apiStatusStories: apiStoriesStatus.success,
       })
     } else {
-      this.setState({storiesStatus: apiStatusConstants.failure})
+      this.setState({apiStatusStories: apiStoriesStatus.failure})
     }
   }
 
-  renderLoadingView = () => {
-    this.setState({storiesStatus: apiStatusConstants.inProgress})
-    return (
-      <div className="loader-container">
-        <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
-      </div>
-    )
-  }
+  renderLoadingView = () => (
+    <div className="loader-container" testid="loader">
+      <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
+    </div>
+  )
 
   renderSuccessView = () => {
     const {storiesList} = this.state
-    return (
-      <div>
-        <Slider {...settings}>
-          {storiesList.map(eachLogo => (
-            <div className="slick-container" key={eachLogo.userId}>
-              <img
-                className="logo-image"
-                src={eachLogo.storyUrl}
-                alt="user story"
-              />
-              <p className="name">{eachLogo.userName}</p>
-            </div>
-          ))}
-        </Slider>
-      </div>
-    )
+
+    return <StoriesList storiesList={storiesList} />
   }
 
   onRetry = () => {
     this.setState(
-      {storiesStatus: apiStatusConstants.inProgress},
-      this.getStories,
+      {apiStatusStories: apiStoriesStatus.inProgress},
+      this.getStoriesDetails,
     )
   }
 
-  renderFailureView = () => (
-    <div className="failure-container">
+  renderStoriesFailureView = () => (
+    <div className="failure-view">
       <img
-        src="https://res.cloudinary.com/naveen-ccbp/image/upload/v1672947128/dn/login/alert-triangle_hczx0o_y1nlpv.png"
+        src="https://res.cloudinary.com/dq7imhrvo/image/upload/v1643651534/insta%20Shere%20clone/alert-triangle_hczx0o.png"
         alt="failure view"
         className="failure-img"
       />
-      <p>Something went wrong.Please try again</p>
-      <button className="button" type="button" onClick={this.onRetry}>
+      <p className="failure-head">Something went wrong. Please try again</p>
+      <button className="failure-button" type="button" onClick={this.onRetry}>
         Try again
       </button>
     </div>
   )
 
-  renderStories = () => {
-    const {storiesStatus} = this.state
+  renderStoriesView = () => {
+    const {apiStatusStories} = this.state
 
-    switch (storiesStatus) {
-      case storiesStatus.success:
+    switch (apiStatusStories) {
+      case apiStoriesStatus.success:
         return this.renderSuccessView()
-      case storiesStatus.inProgress:
+      case apiStoriesStatus.inProgress:
         return this.renderLoadingView()
-      case storiesStatus.failure:
-        return this.renderFailureView()
+      case apiStoriesStatus.failure:
+        return this.renderStoriesFailureView()
       default:
         return null
     }
   }
 
   render() {
-    return this.renderStories()
+    return this.renderStoriesView()
   }
 }
 
